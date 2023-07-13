@@ -17153,9 +17153,21 @@ async function main() {
 			}
 		}
 		// set action outputs
-		core.setOutput('satisfied_requirements', [...satisfiedReqs].map(req => `- ${req}`).join('\n'))
-		core.setOutput('unsatisfied_requirements',[...unsatisfiedReqs].map(req => `- ${req}`).join('\n') )
-		core.setOutput('teams_needed_for_review', [...teamsNeededForReview].map(team => `- ${team}`).join('\n'))
+		core.startGroup('Outputs')
+
+		const satisfied_requirements = satisfiedReqs.map(req => `- ${req}`).join('\n')
+		core.setOutput('satisfied_requirements', satisfied_requirements)
+		core.info(`satisfied_requirements: \n${satisfied_requirements}`)
+
+		const unsatisfied_requirements = unsatisfiedReqs.map(req => `- ${req}`).join('\n')
+		core.setOutput('unsatisfied_requirements', unsatisfied_requirements)
+		core.info(`unsatisfied_requirements: \n${unsatisfied_requirements}`)
+
+		const teams_needed_for_review = [...teamsNeededForReview].map(team => `- ${team}`).join('\n')
+		core.setOutput('satisfied_requirements', teams_needed_for_review)
+		core.info(`teams_needed_for_review: \n${teams_needed_for_review}`)
+
+		core.endGroup()
 	} catch ( error ) {
 		let err, state, description;
 		if ( error instanceof reporter.ReportError ) {
