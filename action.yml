@@ -36,6 +36,13 @@ inputs:
       pull request data, create status checks (`repo:status`), and to read
       your organization's teams (`read:org`).
     required: true
+outputs:
+  satisfied_requirements:
+    description: List of satisfied requirements.
+  unsatisfied_requirements:
+    description: List of unsatisfied requirements.
+  teams_needed_for_review:
+    description: List of all teams still potentially needed for review.
 runs:
   using: node16
   main: dist/index.js
