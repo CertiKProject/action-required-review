@@ -3,6 +3,13 @@
 This [Github Action](https://github.com/features/actions) will check that required reviewers have
 accepted the PR, setting a status check accordingly.
 
+## Developing
+
+To make changes:
+- Run `npm install --dev` (if you haven't previously) from the project root.
+- Make your changes to the `src/` directory.
+- Run `npm run build` before merging into `trunk` branch (this updates code in the `dist/` directory, which is what GitHub Actions actually runs during a workflow).
+
 ## Example
 
 ```yaml
