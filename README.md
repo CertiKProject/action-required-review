@@ -76,6 +76,17 @@ This action is intended to be triggered by the `pull_request_review` event.
     token: ${{ secrets.SOME_TOKEN }}
 ```
 
+## Outputs
+
+```yaml
+satisfied_requirements:
+  description: List of satisfied requirements.
+unsatisfied_requirements:
+  description: List of unsatisfied requirements.
+teams_needed_for_review:
+  description: List of all teams still potentially needed for review.
+```
+
 ## Requirements Format
 
 The requirements consist of an array of requirement objects. A requirement object has the following keys:

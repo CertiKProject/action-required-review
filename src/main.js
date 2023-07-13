@@ -71,6 +71,8 @@ async function main() {
 
 		let matchedPaths = [];
 		const teamsNeededForReview = new Set();
+		const satisfiedReqs = [];
+		const unsatisfiedReqs = [];
 		for ( let i = 0; i < requirements.length; i++ ) {
 			const r = requirements[ i ];
 			core.startGroup( `Checking requirement "${ r.name }"...` );
@@ -84,8 +86,10 @@ async function main() {
 				core.endGroup();
 				if ( neededForRequirement.length === 0 ) {
 					core.info( `Requirement "${ r.name }" is satisfied by the existing reviews.` );
+					satisfiedReqs.push(r.name)
 				} else {
 					core.error( `Requirement "${ r.name }" is not satisfied by the existing reviews.` );
+					unsatisfiedReqs.push(r.name)
 					neededForRequirement.forEach( teamsNeededForReview.add, teamsNeededForReview );
 				}
 			}
@@ -101,6 +105,10 @@ async function main() {
 				await requestReview( [ ...teamsNeededForReview ] );
 			}
 		}
+		// set action outputs
+		core.setOutput('satisfied_requirements', [...satisfiedReqs].map(req => `- ${req}`).join('\n'))
+		core.setOutput('unsatisfied_requirements',[...unsatisfiedReqs].map(req => `- ${req}`).join('\n') )
+		core.setOutput('teams_needed_for_review', [...teamsNeededForReview].map(team => `- ${team}`).join('\n'))
 	} catch ( error ) {
 		let err, state, description;
 		if ( error instanceof reporter.ReportError ) {
